@@ -14,5 +14,10 @@ jobs:
           java-version: '8'
 
 
-      - name: accept license
-        run: log-accepted-android-sdk-licenses
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: ''
+
+      - name: accept licenses
+        run: yes | sdkmanager --licenses  
