@@ -13,3 +13,16 @@ jobs:
 
       - name: Set up android SDK
         run: sudo apt update && sudo apt install android-sdk    
+
+
+      - name: Accept licenses
+        run: yes | sdkmanager --licenses
+
+
+      
+      - name: Start Emulator
+        run: |
+          export ANDROID_SDK_ROOT=$RUNNER_WORKSPACE/Android/sdk
+          export PATH=$PATH:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools/bin
+          emulator -avd oui -no-window -gpu swiftshader_indirect -no-audio -no-snapshot-save -no-snapshot-load &
+          android-wait-for-emulator
