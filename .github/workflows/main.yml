@@ -1,19 +1,30 @@
-name: Ub
-on: push
+name: CI cache advance
+
+on: workflow_dispatch
+
 jobs:
-  build:
+  ci:
+    name: Running CI
     runs-on: ubuntu-latest
     steps:
-                  
-      - name: Set up JDK
-        if: steps.cache-jdk.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+      - name: Checkout code
+        uses: actions/checkout@v3.0.2
+
+      - uses: actions/setup-node@v3.1.1
         with:
-          distribution: 'adopt'
-          java-version: '8'
+          node-version: v16.14.2
 
+      - name: Get node version
+        id: node
+        run: |
+          echo "::set-output name=version::$(node -v)"
 
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        shell: bash
-        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - name: Get node_modules cache
+        uses: actions/cache@v3.0.2
+        id: node_modules
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}-${{ steps.node.outputs.version }}
+
+      - run: yarn install
