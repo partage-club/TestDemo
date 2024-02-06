@@ -15,7 +15,7 @@ jobs:
 
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v2 > /dev/null
   
       - name: accept licenses
         run: yes | sdkmanager --licenses > /dev/null
