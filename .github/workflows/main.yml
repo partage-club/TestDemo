@@ -1,30 +1,18 @@
-name: CI cache advance
 
-on: workflow_dispatch
-
+name: Caching
+on: push
 jobs:
-  ci:
-    name: Running CI
-    runs-on: ubuntu-latest
+  build:
+    runs-on: macos-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3.0.2
-
-      - uses: actions/setup-node@v3.1.1
+      - uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v2
         with:
-          node-version: v16.14.2
+          distribution: 'temurin'
+          java-version: '8'
 
-      - name: Get node version
-        id: node
-        run: |
-          echo "::set-output name=version::$(node -v)"
 
-      - name: Get node_modules cache
-        uses: actions/cache@v3.0.2
-        id: node_modules
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}-${{ steps.node.outputs.version }}
-
-      - run: yarn install
+      - name: accept license
+        run: log-accepted-android-sdk-licenses
