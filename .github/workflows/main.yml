@@ -16,7 +16,7 @@ jobs:
 
 
       - name: Accept licenses
-        run: yes | sdkmanager --licenses
+        run: echo y | sdkmanager --licenses
 
 
       
