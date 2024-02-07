@@ -35,6 +35,9 @@ jobs:
     - name: Check list
       run: sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list
 
+    - name: Install emulator package
+      run: sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "emulator"
+
     - name: Create AVD
       run: |
         sudo $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n Pixel_API_28_AOSP -d pixel --package "system-images;android-28;default;x86_64"
