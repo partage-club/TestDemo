@@ -19,16 +19,8 @@ jobs:
         ndk-version: '21.4.7075529'
 
 
-    - name: Create Android Virtual Device (AVD)
-      run: |
-        echo no | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
-        echo no | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-29;google_apis;x86_64"
-        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd --force --name testAVD --package "system-images;android-29;google_apis;x86_64" --tag "google_apis" --abi "x86_64" --device "pixel"
-   
+    - name: Start Android Emulator (ARM)
+      run: emulator -avd testAVD -no-window -no-audio -qemu -cpu cortex-a53
 
-    - name: Start Android Emulator
-      run: |
-        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio &
-        sleep 30  # Adjust the sleep duration based on your emulator startup time
-        adb wait-for-device
-        adb shell input keyevent 82
+    - name: Stop Android Emulator
+      run: adb emu kill
