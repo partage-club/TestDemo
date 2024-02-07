@@ -21,7 +21,7 @@ jobs:
 
     - name: Print emulator binary location
       run: |
-        find $ANDROID_SDK_ROOT -name emulator
+        echo $ANDROID_SDK_ROOT/emulator/emulator
       id: emulator_location
 
     - name: Start Android Emulator (ARM)
