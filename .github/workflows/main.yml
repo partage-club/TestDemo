@@ -1,3 +1,4 @@
+
 name: Ub
 on: push
 jobs:
@@ -6,12 +7,13 @@ jobs:
     steps:
                   
       - name: Set up JDK
-        run: sudo apt-get install openjdk-7-jdk
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '8'
 
       - name: Set up android SDK
-        run: | 
-             wget http://dl.google.com/android/android-sdk_r24.2-linux.tgz
-             tar -xvf android-sdk_r24.2-linux.tgz
-             cd android-sdk-linux/tools
+        run: sudo apt update && sudo apt install android-sdk  
 
-  
+      - name: install platform
+        run: platform 30| sdkmanager 
