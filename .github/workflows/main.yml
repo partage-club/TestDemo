@@ -6,17 +6,12 @@ jobs:
     steps:
                   
       - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '8'
+        run: sudo apt-get install openjdk-7-jdk
 
       - name: Set up android SDK
-        run: sudo apt update && sudo apt install android-sdk    
+        run: | 
+             wget http://dl.google.com/android/android-sdk_r24.2-linux.tgz
+             tar -xvf android-sdk_r24.2-linux.tgz
+             cd android-sdk-linux/tools
 
-      - name: Set up android SDK
-        run: ${ANDROID_HOME}/tools/bin/sdkmanager --install "system-images;android-29;google_apis_playstore;x86_64"
-
-
-      - name: Accept licenses
-        run: echo y | sdkmanager --licenses
+  
