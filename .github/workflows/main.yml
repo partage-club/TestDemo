@@ -1,32 +1,77 @@
+name: Caching
+on:
+  push:
+    branches:
+      - main
 
-name: Ub
-on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-                  
-    - name: Set up Java
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK
       uses: actions/setup-java@v2
       with:
         distribution: 'adopt'
-        java-version: '11'
+        java-version: '8'
 
     - name: Set up Android SDK
-      uses: android-actions/setup-android@v2
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openjdk-8-jdk android-sdk
+
+    - name: Accept Android licenses
+      run: yes | sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+
+    - name: Install platform
+      run: sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-30"
+
+    - name: Install Windows image 64
+      run: sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "system-images;android-28;default;x86_64"
+
+    - name: Check list
+      run: sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list
+
+    - name: Create AVD
+      run: |
+        sudo $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n Pixel_API_28_AOSP -d pixel --package "system-images;android-28;default;x86_64"
+
+    - name: Start Android Emulator (headless)
+      run: |
+        sudo $ANDROID_HOME/emulator/emulator -verbose -no-window -no-audio -gpu swiftshader_indirect @Pixel_API_28_AOSP &
+        sleep 60
+        sudo $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+
+    - name: Display emulator & install app
+      run: |
+        curl -Lo pc.apk https://expo.dev/artifacts/eas/nPnEW9YudZegoHs3Ek28Ai.apk
+        ls -l pc.apk
+        file pc.apk
+        sudo $ANDROID_HOME/platform-tools/adb devices
+        sudo $ANDROID_HOME/platform-tools/adb install pc.apk
+        sleep 10
+        sudo $ANDROID_HOME/platform-tools/adb shell pm list packages
+        sudo $ANDROID_HOME/platform-tools/adb shell dumpsys package club.partage.mobile.development
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
       with:
-        sdk-platform: '29'
-        ndk-version: '21.4.7075529'
+        node-version: 16.13.0
 
-
-    - name: Print emulator binary location
+    - name: Install Dependencies
       run: |
-        echo $ANDROID_SDK_ROOT/emulator/emulator
-      id: emulator_location
+        npm install webdriverio @wdio/cli
+        npm i -g appium
+        npm i --save-dev webdriverio
 
-    - name: Start Android Emulator (ARM)
+    - name: Start Appium Server
       run: |
-        /usr/local/lib/android/sdk/emulator/emulator create avd testAVD -no-window -no-audio -qemu -cpu cortex-a53
+        sudo appium driver install uiautomator2
+        sudo appium --address 0.0.0.0 --port 4723 &
 
-    - name: Stop Android Emulator
-      run: adb emu kill
+    - name: Run Appium Tests
+      run: |
+        node test/test.js
