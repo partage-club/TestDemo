@@ -46,6 +46,10 @@ jobs:
         echo "export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
         source $GITHUB_ENV
 
+        
+    - name: acc
+      run: sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils    
+
 
     - name: Create AVD
       run: |
