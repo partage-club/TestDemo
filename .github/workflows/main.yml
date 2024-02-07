@@ -14,6 +14,9 @@ jobs:
       - name: Set up android SDK
         run: sudo apt update && sudo apt install android-sdk    
 
+      - name: Set up android SDK
+        run: ${ANDROID_HOME}/tools/bin/sdkmanager --install "system-images;android-29;google_apis_playstore;x86_64"
+
 
       - name: Accept licenses
         run: echo y | sdkmanager --licenses
