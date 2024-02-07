@@ -19,8 +19,14 @@ jobs:
         ndk-version: '21.4.7075529'
 
 
+    - name: Print emulator binary location
+      run: |
+        find $ANDROID_SDK_ROOT -name emulator
+      id: emulator_location
+
     - name: Start Android Emulator (ARM)
-      run: emulator -avd testAVD -no-window -no-audio -qemu -cpu cortex-a53
+      run: |
+        ${{ steps.emulator_location.outputs.path }} -avd testAVD -no-window -no-audio -qemu -cpu cortex-a53
 
     - name: Stop Android Emulator
       run: adb emu kill
