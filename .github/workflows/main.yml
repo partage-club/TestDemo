@@ -22,6 +22,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y openjdk-8-jdk android-sdk
+        echo "y" | sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "tools"
+
 
     - name: Accept Android licenses
       run: yes | sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
@@ -37,6 +39,13 @@ jobs:
 
     - name: Install emulator package
       run: sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "emulator"
+
+    - name: Set up Android Environment Variables
+      run: |
+        echo "export ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+        echo "export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
+        source $GITHUB_ENV
+
 
     - name: Create AVD
       run: |
