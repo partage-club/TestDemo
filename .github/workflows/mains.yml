@@ -87,6 +87,7 @@ jobs:
     - name: Install Web
       run: |
         npm install webdriverio @wdio/cli
+        webdriverio --version
 
     - name: Start Appium Server
       run: |
