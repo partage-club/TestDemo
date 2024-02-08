@@ -85,7 +85,6 @@ jobs:
 
     - name: Start Appium Server
       run: |
-        sudo appium driver install uiautomator2
         sudo appium --address 0.0.0.0 --port 4723 &
 
     - name: Run Appium Tests
