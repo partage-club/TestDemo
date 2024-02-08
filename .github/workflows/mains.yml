@@ -77,16 +77,14 @@ jobs:
       with:
         node-version: 18.0.0
 
-    - name: Install Appium
+
+    - name: Install app & Web & Inspector
       run: |
+        npm install webdriverio @wdio/cli
+        npm i --save-dev webdriverio
         npm install -g appium
-
-    - name: Verify Appium Installation
-      run: appium --version
-
-    - name: Install Web
-      run: |
-        npm install webdriverio
+        appium driver install uiautomator2
+        
   
     - name: Start Appium Server
       run: |
