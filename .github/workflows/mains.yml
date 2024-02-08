@@ -81,7 +81,6 @@ jobs:
       run: |
         npm install webdriverio @wdio/cli
         npm install -g appium
-        npm install webdriverio
 
     - name: Start Appium Server
       run: |
@@ -89,4 +88,5 @@ jobs:
 
     - name: Run Appium Tests
       run: |
+        npm install webdriverio
         node test/test.js
