@@ -35,11 +35,9 @@ async function runTest() {
     await wait(5000);
 
     await el14.click();
-    await wait(5000);
     const el3 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
-    await el3.click();
     await wait(5000);
-
+    await el3.click();
     console.log("reussi");
   } 
   catch (error) {
