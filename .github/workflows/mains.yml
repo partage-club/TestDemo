@@ -92,4 +92,4 @@ jobs:
 
     - name: Run Appium Tests
       run: |
-        node test/test.js
+        node test.js
