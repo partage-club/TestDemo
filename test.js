@@ -37,7 +37,7 @@ async function runTest() {
         action: 'tap', x: 1027, y: 1043
       });
       await wait(5000);
-      console.log("pas reussi");
+      console.log("reussi");
   } 
   catch (error) {
     console.error(error.message);
