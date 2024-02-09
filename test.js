@@ -31,12 +31,11 @@ async function runTest() {
     await wait(5000);
 
     await driver.executeScript("mobile: pressKey", [{ "keycode": 4 }]);
+    await wait(5000);
     const el14 = await driver.$("accessibility id:Connect");
-    await wait(5000);
-    await wait(5000);
     await el14.click();
-    const el3 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
     await wait(5000);
+    const el3 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
     await el3.click();
     console.log("reussi");
   } 
