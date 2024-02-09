@@ -36,6 +36,7 @@ async function runTest() {
       await driver.touchAction({
         action: 'tap', x: 1027, y: 1043
       });
+      await wait(5000);
       console.log("pas reussi");
   } 
   catch (error) {
