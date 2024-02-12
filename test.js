@@ -16,34 +16,43 @@ const wdOpts = {
 };
 
 async function runTest() {
-  const wait = (n) => new Promise((resolve) => setTimeout(resolve, n));
   const driver = await remote(wdOpts);
+
+  //fonction qui attend que le boutton apparait
+  async function waitForButton(path) {
+    let but;
+    while (!but) {
+        try {
+          but = await driver.$(path);
+        } catch (error) {
+            // Handle any exceptions if necessary
+            console.log("Button not found yet. Retrying...");
+        }
+    }
+    // Button is found, you can proceed with further actions
+    await but.click();
+  }
+
+  //Cas de test 1
   try {
-      const el1 = await driver.$("xpath://android.widget.Button[@content-desc=\"Enter URL manually\"]/android.view.ViewGroup");
-      await el1.click();
-      await wait(5000);
-      const el2 = await driver.$("class name:android.widget.EditText");
-      await el2.click();
-      await wait(5000);
+    await waitForButton("xpath://android.widget.Button[@content-desc=\"Enter URL manually\"]/android.view.ViewGroup");
 
-      await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
-      await driver.executeScript("mobile: pressKey", [{"keycode":4}]);
-      await wait(5000);
+    const el2 = await driver.$("class name:android.widget.EditText");
+    await el2.click();
 
-      const el3 = await driver.$("xpath://android.widget.TextView[@text=\"Connect\"]");
-      await el3.click();
-      await wait(5000);
-      await driver.touchAction({
-        action: 'tap', x: 1027, y: 1043
-      });
-      await wait(5000);
-      console.log("reussi");
+    await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
+    await driver.executeScript("mobile: pressKey", [{"keycode":4}]);
+      
+    await waitForButton("xpath://android.widget.TextView[@text=\"Connect\"]");
+
+    await waitForButton("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
+      
+    console.log("reussi");
   } 
   catch (error) {
     console.error(error.message);
     console.log("pas reussi");
   }
 }
-
 
 runTest().catch(console.error);
