@@ -57,7 +57,7 @@ async function runTest() {
   } 
   catch (error) {
     console.error(error.message);
-    console.log("pas reussi");
+    console.log("pass reussi");
   }
   finally{
     const videoData = await driver.stopRecordingScreen();
