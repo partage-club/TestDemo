@@ -18,6 +18,8 @@ const wdOpts = {
 async function runTest() {
   const driver = await remote(wdOpts);
 
+  await driver.startRecordingScreen();
+
   //fonction qui attend que le boutton apparait
   async function waitForButton(path) {
     let but;
@@ -55,6 +57,12 @@ async function runTest() {
   catch (error) {
     console.error(error.message);
     console.log("pas reussi");
+  }
+  finally{
+    const videoData = await driver.stopRecordingScreen();
+
+    // Save the video data to a file
+    fs.writeFileSync('recording.mp4', videoData, 'base64');
   }
 }
 
