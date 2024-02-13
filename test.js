@@ -45,7 +45,7 @@ async function runTest() {
     await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
     await driver.executeScript("mobile: pressKey", [{"keycode":4}]);
       
-    const el3 = await driver.$("xpath://android.widget.TextView[@text=\"Connect\"]");
+    const el3 = await driver.$("accessibility id:Connect");
     el3.click();
     
 
