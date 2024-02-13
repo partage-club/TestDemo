@@ -29,7 +29,6 @@ async function runTest() {
             console.log("Button not found yet. Retrying...");
         }
     }
-    // Button is found, you can proceed with further actions
     await but.click();
   }
 
