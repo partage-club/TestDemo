@@ -17,6 +17,7 @@ const wdOpts = {
 
 async function runTest() {
   const driver = await remote(wdOpts);
+  const wait = (n) => new Promise((resolve) => setTimeout(resolve, n));
   const fs = require('fs');
   await driver.startRecordingScreen();
 
@@ -47,7 +48,7 @@ async function runTest() {
       
     const el3 = await driver.$("accessibility id:Connect");
     el3.click();
-    
+    await wait(5000);
 
     const screenshotBefore = await driver.takeScreenshot();
     fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
