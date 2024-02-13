@@ -17,7 +17,7 @@ const wdOpts = {
 
 async function runTest() {
   const driver = await remote(wdOpts);
-
+  const fs = require('fs');
   await driver.startRecordingScreen();
 
   //fonction qui attend que le boutton apparait
@@ -36,7 +36,6 @@ async function runTest() {
 
   //Cas de test 1
   try {
-    const fs = require('fs');
     await waitForButton("xpath://android.widget.Button[@content-desc=\"Enter URL manually\"]/android.view.ViewGroup");
 
     const el2 = await driver.$("class name:android.widget.EditText");
