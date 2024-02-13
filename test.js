@@ -34,16 +34,20 @@ async function runTest() {
 
   //Cas de test 1
   try {
+    const fs = require('fs');
     await waitForButton("xpath://android.widget.Button[@content-desc=\"Enter URL manually\"]/android.view.ViewGroup");
 
     const el2 = await driver.$("class name:android.widget.EditText");
     await el2.click();
+   
 
     await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
     await driver.executeScript("mobile: pressKey", [{"keycode":4}]);
       
     await waitForButton("xpath://android.widget.TextView[@text=\"Connect\"]");
 
+    const screenshotBefore = await driver.takeScreenshot();
+    fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
     await waitForButton("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
       
     console.log("reussi");
