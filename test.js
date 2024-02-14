@@ -34,21 +34,9 @@ async function runTest() {
     }
     await but.click();
   }
-
-  async function waitForElementDisplayed(xpath) {
-    let element = await driver.$(xpath);
-
-    while (!(await element.isDisplayed())) {
-        console.log(`Element with XPath ${xpath} is not displayed yet. Retrying...`);
-        // Optionally, you can introduce a small delay before retrying
-        await driver.pause(500);
-    }
-
-    return element;
-}
-
   //Cas de test 1
   try {
+
     await waitForButton("xpath://android.widget.Button[@content-desc=\"Enter URL manually\"]/android.view.ViewGroup");
 
     const el2 = await driver.$("class name:android.widget.EditText");
@@ -59,6 +47,7 @@ async function runTest() {
     //enlever le keyboard
     const el3 = await driver.$("xpath://android.view.ViewGroup[@resource-id=\"DevLauncherMainScreen\"]/android.view.ViewGroup");
     await el3.click();
+    //clicker sur connect
     const conn = await driver.$("accessibility id:Connect");
     await conn.click();
 
@@ -67,30 +56,40 @@ async function runTest() {
         const button = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
         if (await button.isExisting()) {
           await button.click();
+          console.log("button X found")
           return true; // Exit the wait loop after clicking the button
         }
       } catch (error) {
         console.log("Button not found yet. Retrying...");
       }
       return false;
-    }, { timeout: 90000, timeoutMsg: 'Button did not appear within 10000ms' });
+    }, { timeout: 90000, timeoutMsg: 'Button did not appear within 90s' });
+
+    //on attend que la page est loaded en verifiant si un certain header est apparu
+    await driver.waitUntil(async () => {
+      try {
+        const needsHeader = await driver.$("accessibility id:Needs");
+        if (await needsHeader.isDisplayed()) {
+          console.log("OffersHeader found");
+          return true; // Exit the wait loop after clicking the button
+        }
+      } catch (error) {
+        console.log("NeedsHeader not found yet. Retrying...");
+      }
+      return false;
+    }, { timeout: 90000, timeoutMsg: 'NeedsHeader did not appear within 90s' });
+  
   
 
-
+    //Pour prendre des screenshot (si on veux les save faut ajouter le path .png dans YAML)
     //const screenshotBefore = await driver.takeScreenshot();
     //fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
 
-
-    // Example usage
-    //const bouttonX = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
-    //await bouttonX.click();
-  
-    //const el1 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");    
     console.log("reussi");
   } 
   catch (error) {
     console.error(error.message);
-    console.log("pass reussi");
+    console.log("pas reussi");
   }
   finally{
     const videoData = await driver.stopRecordingScreen();
