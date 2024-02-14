@@ -60,8 +60,11 @@ async function runTest() {
       
 
     
-    const conn = await waitForElementDisplayed("xpath://android.widget.TextView[@text=\"Connect\"]");
+    const conn = await driver.$("xpath://android.widget.TextView[@text=\"Connect\"]");
     await conn.click();
+
+    //await driver.executeScript("mobile: pressKey", [{"keycode":3}]);
+
 
     // const el3 = await driver.$("xpath://android.widget.TextView[@text=\"Connect\"]");
     // await el3.click();
@@ -72,8 +75,8 @@ async function runTest() {
  
   
   // Example usage
-    const bouttonX = await waitForElementDisplayed("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
-    await bouttonX.click();
+    //const bouttonX = await waitForElementDisplayed("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
+    //await bouttonX.click();
   
     //const el1 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");    
     console.log("reussi");
