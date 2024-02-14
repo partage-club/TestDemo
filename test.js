@@ -48,12 +48,17 @@ async function runTest() {
       
     const el3 = await driver.$("accessibility id:Connect");
     el3.click();
-    await wait(5000);
 
-    const screenshotBefore = await driver.takeScreenshot();
-    fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
-    await waitForButton("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
-      
+    //const screenshotBefore = await driver.takeScreenshot();
+    //fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
+
+    await driver.waitUntil(async () => {
+      const el1 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
+      return await el1.isExisting();
+  }, { timeout: 99999, timeoutMsg: 'Button did not appear within 5000ms' });
+    const el1 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
+    el1.click();
+
     console.log("reussi");
   } 
   catch (error) {
@@ -62,8 +67,6 @@ async function runTest() {
   }
   finally{
     const videoData = await driver.stopRecordingScreen();
-
-    // Save the video data to a file
     fs.writeFileSync('recording.mp4', videoData, 'base64');
   }
 }
