@@ -62,8 +62,19 @@ async function runTest() {
     const conn = await driver.$("accessibility id:Connect");
     await conn.click();
 
-    await wait(5000);
-    await wait(5000);
+    await driver.waitUntil(async () => {
+      try {
+        const button = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
+        if (await button.isExisting()) {
+          await button.click();
+          return true; // Exit the wait loop after clicking the button
+        }
+      } catch (error) {
+        console.log("Button not found yet. Retrying...");
+      }
+      return false;
+    }, { timeout: 10000, timeoutMsg: 'Button did not appear within 10000ms' });
+  
 
 
     //const screenshotBefore = await driver.takeScreenshot();
@@ -71,7 +82,7 @@ async function runTest() {
 
 
     // Example usage
-    //const bouttonX = await waitForElementDisplayed("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
+    //const bouttonX = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
     //await bouttonX.click();
   
     //const el1 = await driver.$("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");    
