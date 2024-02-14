@@ -61,7 +61,7 @@ async function runTest() {
 
     
     const conn = await waitForElementDisplayed("xpath://android.widget.TextView[@text=\"Connect\"]");
-    conn.click();
+    await conn.click();
 
     // const el3 = await driver.$("xpath://android.widget.TextView[@text=\"Connect\"]");
     // await el3.click();
