@@ -42,10 +42,10 @@ async function runTest() {
     const el2 = await driver.$("class name:android.widget.EditText");
     await el2.click();
    
-
     await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
-    driver.hideKeyboard();
-
+    //enlever le keyboard
+    const el3 = await driver.$("xpath://android.view.ViewGroup[@resource-id=\"DevLauncherMainScreen\"]/android.view.ViewGroup");
+    await el3.click();
     //clicker sur connect
     const conn = await driver.$("accessibility id:Connect");
     await conn.click();
@@ -69,25 +69,25 @@ async function runTest() {
       try {
         const needsHeader = await driver.$("accessibility id:Needs");
         if (await needsHeader.isDisplayed()) {
-          console.log("NeedsHeader found");
+          console.log("Needs Header found");
           return true; // Exit the wait loop after clicking the button
         }
       } catch (error) {
-        console.log("NeedsHeader not found yet. Retrying...");
+        console.log("Needs Header not found yet. Retrying...");
       }
       return false;
-    }, { timeout: 90000, timeoutMsg: 'NeedsHeader did not appear within 90s' });
+    }, { timeout: 90000, timeoutMsg: 'Needs Header did not appear within 90s' });
   
   
 
     //Pour prendre des screenshot (si on veux les save faut ajouter le path .png dans YAML)
     //const screenshotBefore = await driver.takeScreenshot();
     //fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
-    console.log("Test reussi");
+    console.log("reussi");
   } 
   catch (error) {
     console.error(error.message);
-    console.log("Test pas reussi");
+    console.log("pas reussi");
   }
   finally{
     const videoData = await driver.stopRecordingScreen();
