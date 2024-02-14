@@ -44,9 +44,8 @@ async function runTest() {
    
 
     await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
-    //enlever le keyboard
-    const el3 = await driver.$("xpath://android.view.ViewGroup[@resource-id=\"DevLauncherMainScreen\"]/android.view.ViewGroup");
-    await el3.click();
+    driver.hideKeyboard();
+
     //clicker sur connect
     const conn = await driver.$("accessibility id:Connect");
     await conn.click();
@@ -60,17 +59,17 @@ async function runTest() {
           return true; // Exit the wait loop after clicking the button
         }
       } catch (error) {
-        console.log("Button not found yet. Retrying...");
+        console.log("Button X not found yet. Retrying...");
       }
       return false;
-    }, { timeout: 90000, timeoutMsg: 'Button did not appear within 90s' });
+    }, { timeout: 90000, timeoutMsg: 'Button X did not appear within 90s' });
 
     //on attend que la page est loaded en verifiant si un certain header est apparu
     await driver.waitUntil(async () => {
       try {
         const needsHeader = await driver.$("accessibility id:Needs");
         if (await needsHeader.isDisplayed()) {
-          console.log("OffersHeader found");
+          console.log("NeedsHeader found");
           return true; // Exit the wait loop after clicking the button
         }
       } catch (error) {
@@ -84,12 +83,11 @@ async function runTest() {
     //Pour prendre des screenshot (si on veux les save faut ajouter le path .png dans YAML)
     //const screenshotBefore = await driver.takeScreenshot();
     //fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
-
-    console.log("reussi");
+    console.log("Test reussi");
   } 
   catch (error) {
     console.error(error.message);
-    console.log("pas reussi");
+    console.log("Test pas reussi");
   }
   finally{
     const videoData = await driver.stopRecordingScreen();
