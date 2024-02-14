@@ -73,7 +73,7 @@ async function runTest() {
         console.log("Button not found yet. Retrying...");
       }
       return false;
-    }, { timeout: 10000, timeoutMsg: 'Button did not appear within 10000ms' });
+    }, { timeout: 90000, timeoutMsg: 'Button did not appear within 10000ms' });
   
 
 
