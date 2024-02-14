@@ -56,10 +56,14 @@ async function runTest() {
    
 
     await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
+    //enlever le keyboard
     const el3 = await driver.$("xpath://android.view.ViewGroup[@resource-id=\"DevLauncherMainScreen\"]/android.view.ViewGroup");
     await el3.click();
     const conn = await driver.$("accessibility id:Connect");
     await conn.click();
+
+    await wait(5000);
+    await wait(5000);
 
 
     //const screenshotBefore = await driver.takeScreenshot();
