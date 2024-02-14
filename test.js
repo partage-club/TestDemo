@@ -56,25 +56,17 @@ async function runTest() {
    
 
     await el2.addValue("https://u.expo.dev/update/21b1cdb1-1af9-4ccb-a27c-d26825467f56");
-    await driver.executeScript("mobile: pressKey", [{"keycode":4}]);
-      
-
-    
-    const conn = await driver.$("xpath://android.widget.TextView[@text=\"Connect\"]");
+    const el3 = await driver.$("xpath://android.view.ViewGroup[@resource-id=\"DevLauncherMainScreen\"]/android.view.ViewGroup");
+    await el3.click();
+    const conn = await driver.$("accessibility id:Connect");
     await conn.click();
 
-    //await driver.executeScript("mobile: pressKey", [{"keycode":3}]);
-
-
-    // const el3 = await driver.$("xpath://android.widget.TextView[@text=\"Connect\"]");
-    // await el3.click();
 
     //const screenshotBefore = await driver.takeScreenshot();
     //fs.writeFileSync('screenshot_before.png', screenshotBefore, 'base64');
 
- 
-  
-  // Example usage
+
+    // Example usage
     //const bouttonX = await waitForElementDisplayed("xpath://android.widget.FrameLayout[@resource-id=\"club.partage.mobile.development:id/bottom_sheet\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.Button/android.widget.ImageView");
     //await bouttonX.click();
   
